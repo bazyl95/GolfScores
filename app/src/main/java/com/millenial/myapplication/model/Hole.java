@@ -12,7 +12,7 @@ public class Hole {
     }
 
     public String getmHoleName() {
-        return mHoleName;
+        return "Hole " + mHoleName + ":";
     }
 
     public void setmHoleName(String mHoleName) {

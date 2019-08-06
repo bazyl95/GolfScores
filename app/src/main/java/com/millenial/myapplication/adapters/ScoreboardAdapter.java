@@ -19,7 +19,6 @@ import java.util.List;
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.ScoreboardViewHolder> {
     private int itemsAmount;
     private List<Hole> holes;
-    private int holeCount;
 
     public ScoreboardAdapter(int itemsAmount) {
         this.itemsAmount = itemsAmount;
@@ -64,6 +63,11 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
             scoreTextView = itemView.findViewById(R.id.scoreTextView);
             minusButton = itemView.findViewById(R.id.minusButton);
             plusButton = itemView.findViewById(R.id.plusButton);
+        }
+
+        public void bind(final int position) {
+            holeTextView.setText(holes.get(position).getmHoleName());
+            scoreTextView.setText(String.valueOf(holes.get(position).getmScore()));
 
             minusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,10 +77,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
                         score--;
                         scoreTextView.setText(String.valueOf(score));
 
-                        int listIndex = Integer.parseInt(holeTextView.getText().toString()) - 1;
-                        Hole hole = holes.get(listIndex);
+                        Hole hole = holes.get(position);
                         hole.setmScore(score);
-                        holes.set(listIndex, hole);
+                        holes.set(position, hole);
                     }
                 }
             });
@@ -86,20 +89,11 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
                     int score = Integer.parseInt(scoreTextView.getText().toString());
                     score++;
                     scoreTextView.setText(String.valueOf(score));
-                    int listIndex = Integer.parseInt(holeTextView.getText().toString()) - 1;
-                    Hole hole = holes.get(listIndex);
+                    Hole hole = holes.get(position);
                     hole.setmScore(score);
-                    holes.set(listIndex, hole);
+                    holes.set(position, hole);
                 }
             });
-
-        }
-        void bind(int position) {
-            holeTextView.setText("Hole " + holes.get(position).getmHoleNumber() + ":");
-            scoreTextView.setText(String.valueOf(holes.get(position).getmScore()));
-            Hole hole = holes.get(position);
-            hole.setmHoleNumber(position);
-            holes.set(position, hole);
         }
     }
 }
