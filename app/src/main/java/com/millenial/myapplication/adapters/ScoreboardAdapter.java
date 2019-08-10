@@ -17,16 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.ScoreboardViewHolder> {
-    private int itemsAmount;
-    private List<Hole> holes;
+    private List<Hole> mHoles;
 
-    public ScoreboardAdapter(int itemsAmount) {
-        this.itemsAmount = itemsAmount;
-        holes = new ArrayList<>(itemsAmount);
-        for (int i = 0; i < itemsAmount; i++) {
-            String holeNumber = String.valueOf(i + 1);
-            holes.add(new Hole(holeNumber, i, 0));
-        }
+    public ScoreboardAdapter(List<Hole> holes) {
+        mHoles = holes;
     }
 
     @NonNull
@@ -47,7 +41,7 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
 
     @Override
     public int getItemCount() {
-        return itemsAmount;
+        return mHoles.size();
     }
 
     class ScoreboardViewHolder extends RecyclerView.ViewHolder {
@@ -66,8 +60,8 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
         }
 
         public void bind(final int position) {
-            holeTextView.setText(holes.get(position).getmHoleName());
-            scoreTextView.setText(String.valueOf(holes.get(position).getmScore()));
+            holeTextView.setText(mHoles.get(position).getmHoleName());
+            scoreTextView.setText(String.valueOf(mHoles.get(position).getmScore()));
 
             minusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,9 +71,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
                         score--;
                         scoreTextView.setText(String.valueOf(score));
 
-                        Hole hole = holes.get(position);
+                        Hole hole = mHoles.get(position);
                         hole.setmScore(score);
-                        holes.set(position, hole);
+                        mHoles.set(position, hole);
                     }
                 }
             });
@@ -89,9 +83,9 @@ public class ScoreboardAdapter extends RecyclerView.Adapter<ScoreboardAdapter.Sc
                     int score = Integer.parseInt(scoreTextView.getText().toString());
                     score++;
                     scoreTextView.setText(String.valueOf(score));
-                    Hole hole = holes.get(position);
+                    Hole hole = mHoles.get(position);
                     hole.setmScore(score);
-                    holes.set(position, hole);
+                    mHoles.set(position, hole);
                 }
             });
         }
